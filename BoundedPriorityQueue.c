@@ -2,7 +2,6 @@
 #include <stdlib.h>
 
 
-
 struct bounded_priority_queue_t {
   size_t actualsize;
   size_t capacity;
@@ -36,7 +35,6 @@ static void Heap(BoundedPriorityQueue *bpq, size_t position,double key,size_t va
   bpq->key[position] = key;
   bpq->value[position]= value;
   int i = position;
-  bpq->actualsize++;
   while (i > 0 &&bpq->key[i/2] < bpq->key[i])
   {
     doubleswap(bpq->key,bpq->value,i,i/2,i,i/2);
@@ -85,6 +83,7 @@ bool bpqInsert(BoundedPriorityQueue* bpq, double key, size_t value) {
     return true;
   }
   Heap(bpq,bpq->actualsize,key,value);
+  bpq->actualsize++;
   return true;
   
 }
@@ -94,6 +93,7 @@ void bpqReplaceMaximum(BoundedPriorityQueue* bpq, double key, size_t value) {
   { 
     unsigned int half = bpq->actualsize/2;
     unsigned int position = minposition(bpq->key,half,bpq->actualsize);
+
     if(bpq->key[position] > key)
       return;
     Heap(bpq,position,key,value);
