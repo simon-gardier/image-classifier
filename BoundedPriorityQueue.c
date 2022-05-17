@@ -1,41 +1,36 @@
 #include "BoundedPriorityQueue.h"
 #include <stdlib.h>
-typedef struct Data_t{
-  double key;
-  size_t value;
-}Data;
-
 
 struct bounded_priority_queue_t {
-  unsigned int actualsize;
-  Data *array;
+  size_t actualsize;
   size_t capacity;
+  double *key;
+  size_t *value;
 };
-static double getKey(Data d){
-  return d.key;
-}
-static void swap(Data* array, int i, int j){
-  Data temp = array[i];
-  array[i] = array[j];
-  array[j] = temp;
-}
-static void heapify(Data *array, int n, int i)
+
+
+static void heapify(double *array, size_t *array2, int n, int i)
 {
     // Find parent
     int parent = (i - 1) / 2;
  
-    if (getKey(array[parent]) > 0) {
-      if (getKey(array[i]) > getKey(array[parent]) ) {
-        swap(array, i,parent);
-        heapify(array, n, parent);
+    if (array[parent] > 0) {
+      if (array[i] > array[parent] ) {
+        swap(array,array2, i,parent,i,parent);
+        heapify(array,array2, n, parent);
         }
     }
 }
-
-static void setData(BoundedPriorityQueue *bpq,double key,size_t value, size_t position){
-  bpq->array[position].key = key;
-  bpq->array[position].value = value;
+static void doubleswap(double *array,size_t *array2, int i,int j ,int m, int n)
+{
+  double temp = array[i];
+  array[i] = array[j];
+  array[j] = temp;
+  size_t temp2 = array2[m];
+  array2[m] = array2[n];
+  array2[n]= temp2;
 }
+
 
 
 BoundedPriorityQueue* bpqCreate(size_t capacity) {
@@ -46,48 +41,66 @@ BoundedPriorityQueue* bpqCreate(size_t capacity) {
     return NULL;
   Priority->capacity = capacity;
   Priority->actualsize = 0;
-  Priority->array = malloc(capacity*sizeof(Data));
-  if(!Priority->array){
+  Priority->key = malloc(capacity*sizeof(double));
+  if(!Priority->key){
     free(Priority);
     return NULL;
   }
+  Priority->value = malloc(capacity*sizeof(size_t));
+  if(!Priority->value){
+    free(Priority->key);
+    free(Priority);
+    return NULL;
+  }
+
   return Priority;
 }
 
 void bpqFree(BoundedPriorityQueue* bpq) {
-  free(bpq->array);
+  free(bpq->value);
+  free(bpq->key);
   free(bpq);
 }
 
 bool bpqInsert(BoundedPriorityQueue* bpq, double key, size_t value) {
-  if(!bpq )
-    return false;
-  if(bpq->actualsize == bpq->capacity)
+  if(!bpq ||bpq->actualsize == bpq->capacity )
     return false;
   if(bpq->actualsize == 0)
   {
-    setData(bpq,key,value,bpq->actualsize);
+    bpq->key[bpq->actualsize] = key;
+    bpq->value[bpq->actualsize]= value;
     bpq->actualsize++;
     return true;
   }
-  setData(bpq,key,value,bpq->actualsize);
+  bpq->key[bpq->actualsize] = key;
+  bpq->value[bpq->actualsize]= value;
   int tempo = bpq->actualsize;
   bpq->actualsize++;
-  heapify(bpq->array,bpq->actualsize, tempo);
+  heapify(bpq->key,bpq->value,bpq->actualsize,tempo);
   return true;
   
 }
 
 void bpqReplaceMaximum(BoundedPriorityQueue* bpq, double key, size_t value) {
-  bpqInsert(bpq,key,value);
+  if(bpq->actualsize > 0)
+  {
+    if(bpq->key[0] < key)
+    {
+      bpq->key[0] = key;
+      bpq->value[0] = value;
+    }
+  }
 }
 
 double bpqMaximumKey(const BoundedPriorityQueue* bpq) {
-  return getKey(bpq->array[0]);
+  if(bpq->actualsize >0)
+    return bpq->key[0];
+  else 
+    return 0;
 } 
 
 size_t* bpqGetItems(const BoundedPriorityQueue* bpq) {
-  return bpq->array;
+  return bpq->value;
 }
 
 size_t bpqSize(const BoundedPriorityQueue* bpq) {
@@ -97,5 +110,6 @@ size_t bpqSize(const BoundedPriorityQueue* bpq) {
 size_t bpqCapacity(const BoundedPriorityQueue* bpq) {
   return bpq->capacity;
 }
+
 
 
