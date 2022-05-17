@@ -19,19 +19,6 @@ static void doubleswap(double *array,size_t *array2, int i,int j ,int m, int n)
   array2[n]= temp2;
 }
 
-static void heapify(double *array, size_t *array2, int n, int i)
-{
-    // Find parent
-    int parent = (i - 1) / 2;
- 
-    if (array[parent] > 0) {
-      if (array[i] > array[parent] ) {
-        doubleswap(array,array2, i,parent,i,parent);
-        heapify(array,array2, n, parent);
-        }
-    }
-}
-
 
 BoundedPriorityQueue* bpqCreate(size_t capacity) {
   if(capacity <= 0)
