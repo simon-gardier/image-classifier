@@ -1,26 +1,14 @@
 #include "BoundedPriorityQueue.h"
 #include <stdlib.h>
 
+
+
 struct bounded_priority_queue_t {
   size_t actualsize;
   size_t capacity;
   double *key;
   size_t *value;
 };
-
-
-static void heapify(double *array, size_t *array2, int n, int i)
-{
-    // Find parent
-    int parent = (i - 1) / 2;
- 
-    if (array[parent] > 0) {
-      if (array[i] > array[parent] ) {
-        swap(array,array2, i,parent,i,parent);
-        heapify(array,array2, n, parent);
-        }
-    }
-}
 static void doubleswap(double *array,size_t *array2, int i,int j ,int m, int n)
 {
   double temp = array[i];
@@ -31,6 +19,18 @@ static void doubleswap(double *array,size_t *array2, int i,int j ,int m, int n)
   array2[n]= temp2;
 }
 
+static void heapify(double *array, size_t *array2, int n, int i)
+{
+    // Find parent
+    int parent = (i - 1) / 2;
+ 
+    if (array[parent] > 0) {
+      if (array[i] > array[parent] ) {
+        doubleswap(array,array2, i,parent,i,parent);
+        heapify(array,array2, n, parent);
+        }
+    }
+}
 
 
 BoundedPriorityQueue* bpqCreate(size_t capacity) {
@@ -110,6 +110,5 @@ size_t bpqSize(const BoundedPriorityQueue* bpq) {
 size_t bpqCapacity(const BoundedPriorityQueue* bpq) {
   return bpq->capacity;
 }
-
 
 
