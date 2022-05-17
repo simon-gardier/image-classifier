@@ -74,9 +74,13 @@ bool bpqInsert(BoundedPriorityQueue* bpq, double key, size_t value) {
   }
   bpq->key[bpq->actualsize] = key;
   bpq->value[bpq->actualsize]= value;
-  int tempo = bpq->actualsize;
+  int i = bpq->actualsize;
   bpq->actualsize++;
-  heapify(bpq->key,bpq->value,bpq->actualsize,tempo);
+  while (i > 0 &&bpq->key[i/2] < bpq->key[i])
+  {
+    doubleswap(bpq->key,bpq->value,i,i/2,i,i/2);
+    i = i/2;
+  } 
   return true;
   
 }
@@ -84,11 +88,7 @@ bool bpqInsert(BoundedPriorityQueue* bpq, double key, size_t value) {
 void bpqReplaceMaximum(BoundedPriorityQueue* bpq, double key, size_t value) {
   if(bpq->actualsize > 0)
   {
-    if(bpq->key[0] < key)
-    {
-      bpq->key[0] = key;
-      bpq->value[0] = value;
-    }
+
   }
 }
 
