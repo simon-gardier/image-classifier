@@ -18,6 +18,31 @@ static void doubleswap(double *array,size_t *array2, int i,int j ,int m, int n)
   array2[m] = array2[n];
   array2[n]= temp2;
 }
+static unsigned int minposition(double *array,unsigned int begin,unsigned int end)
+{
+  double min = array[begin];
+  unsigned int min_position = begin;
+  for(unsigned int i = begin ; i < end ;i++)
+  {
+    if(min > array[i]){
+      min = array[i];
+      min_position = i;
+    }
+  }
+  return min_position;
+}
+static void Heap(BoundedPriorityQueue *bpq, size_t position,double key,size_t value)
+{
+  bpq->key[position] = key;
+  bpq->value[position]= value;
+  int i = position;
+  bpq->actualsize++;
+  while (i > 0 &&bpq->key[i/2] < bpq->key[i])
+  {
+    doubleswap(bpq->key,bpq->value,i,i/2,i,i/2);
+    i = i/2;
+  } 
+}
 
 
 BoundedPriorityQueue* bpqCreate(size_t capacity) {
@@ -59,23 +84,19 @@ bool bpqInsert(BoundedPriorityQueue* bpq, double key, size_t value) {
     bpq->actualsize++;
     return true;
   }
-  bpq->key[bpq->actualsize] = key;
-  bpq->value[bpq->actualsize]= value;
-  int i = bpq->actualsize;
-  bpq->actualsize++;
-  while (i > 0 &&bpq->key[i/2] < bpq->key[i])
-  {
-    doubleswap(bpq->key,bpq->value,i,i/2,i,i/2);
-    i = i/2;
-  } 
+  Heap(bpq,bpq->actualsize,key,value);
   return true;
   
 }
 
 void bpqReplaceMaximum(BoundedPriorityQueue* bpq, double key, size_t value) {
   if(bpq->actualsize > 0)
-  {
-
+  { 
+    unsigned int half = bpq->actualsize/2;
+    unsigned int position = minposition(bpq->key,half,bpq->actualsize);
+    if(bpq->key[position] > key)
+      return;
+    Heap(bpq,position,key,value);
   }
 }
 
@@ -97,5 +118,6 @@ size_t bpqSize(const BoundedPriorityQueue* bpq) {
 size_t bpqCapacity(const BoundedPriorityQueue* bpq) {
   return bpq->capacity;
 }
+
 
 
