@@ -130,6 +130,7 @@ void bpqReplaceMaximum(BoundedPriorityQueue* bpq, double key, size_t value) {
   { 
     HeapDeleteMax(bpq);
     bool test = bpqInsert(bpq,key,value);
+    test;
 }
 }
 
