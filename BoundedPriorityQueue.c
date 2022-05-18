@@ -9,6 +9,15 @@ struct bounded_priority_queue_t {
   double *key;
   size_t *value;
 };
+/**
+ * @fn doubleswap
+ * @brief Swap the value between 2 arrays
+ * @param array first array to swap the value
+ * @param array2 second array to swap the value
+ * @param i the first position in the arrays
+ * @param j the second position in the arrays 
+ * 
+ */
 static void doubleswap(double *array,size_t *array2, int i,int j )
 {
   double temp = array[i];
@@ -18,7 +27,15 @@ static void doubleswap(double *array,size_t *array2, int i,int j )
   array2[i] = array2[j];
   array2[j]= temp2;
 }
-
+/**
+ * @fn maxHeapify
+ * @brief Rebuild correclty the heap
+ * @param key the heap to rebuild
+ * @param value associated data to key
+ * @param root the start of rebuild
+ * @param heapSize the size of the heap
+ * 
+ */
 static void maxHeapify(double* key,size_t *value, unsigned int root, unsigned int heapSize){
     unsigned int left = 2*root + 1;
     unsigned int right = 2*root + 2;
@@ -36,6 +53,11 @@ static void maxHeapify(double* key,size_t *value, unsigned int root, unsigned in
         maxHeapify(key,value, largest, heapSize);
     }
 }
+/**
+ * @fn HeapDeleteMax
+ * @brief Delete the maximum in the heap
+ * @param bpq The binay heap need to retire 
+ */
 static void HeapDeleteMax(BoundedPriorityQueue *bpq)
 {
   unsigned int position = bpq->actualsize - 1;
@@ -44,6 +66,14 @@ static void HeapDeleteMax(BoundedPriorityQueue *bpq)
   bpq->actualsize = position;
   maxHeapify(bpq->key,bpq->value,0,bpq->actualsize);
 }
+/**
+ * @fn Heap
+ * @brief Insert the element in the heap
+ * @param bpq The binary heap
+ * @param position Where to insert in the heap
+ * @param key the key 
+ * @param value The data we need to have
+ */
 static void Heap(BoundedPriorityQueue *bpq, size_t position,double key,size_t value)
 {
   bpq->key[position] = key;
@@ -89,13 +119,6 @@ void bpqFree(BoundedPriorityQueue* bpq) {
 bool bpqInsert(BoundedPriorityQueue* bpq, double key, size_t value) {
   if(!bpq ||bpq->actualsize == bpq->capacity )
     return false;
-  if(bpq->actualsize == 0)
-  {
-    bpq->key[bpq->actualsize] = key;
-    bpq->value[bpq->actualsize]= value;
-    bpq->actualsize++;
-    return true;
-  }
   Heap(bpq,bpq->actualsize,key,value);
   bpq->actualsize++;
   return true;
