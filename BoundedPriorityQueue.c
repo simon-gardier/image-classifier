@@ -1,5 +1,6 @@
 #include "BoundedPriorityQueue.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 
 struct bounded_priority_queue_t {
@@ -17,18 +18,31 @@ static void doubleswap(double *array,size_t *array2, int i,int j )
   array2[i] = array2[j];
   array2[j]= temp2;
 }
-static unsigned int minposition(double *array,unsigned int begin,unsigned int end)
-{
-  double min = array[begin];
-  unsigned int min_position = begin;
-  for(unsigned int i = begin ; i < end ;i++)
-  {
-    if(min > array[i]){
-      min = array[i];
-      min_position = i;
+
+static void maxHeapify(double* key,size_t *value, unsigned int root, unsigned int heapSize){
+    unsigned int left = 2*root + 1;
+    unsigned int right = 2*root + 2;
+    unsigned int largest = root;
+    
+    if(left < heapSize && key[left] > key[largest]){
+        largest = left;
     }
-  }
-  return min_position;
+    if(right < heapSize && key[right] > key[largest]){
+        largest = right;
+    }
+    
+    if(largest != root){
+        doubleswap(key,value, root, largest);
+        maxHeapify(key,value, largest, heapSize);
+    }
+}
+static void HeapDeleteMax(BoundedPriorityQueue *bpq)
+{
+  unsigned int position = bpq->actualsize - 1;
+  bpq->key[0]= bpq->key[position];
+  bpq->value[0]= bpq->key[position];
+  bpq->actualsize = position;
+  maxHeapify(bpq->key,bpq->value,0,bpq->actualsize);
 }
 static void Heap(BoundedPriorityQueue *bpq, size_t position,double key,size_t value)
 {
@@ -89,15 +103,11 @@ bool bpqInsert(BoundedPriorityQueue* bpq, double key, size_t value) {
 }
 
 void bpqReplaceMaximum(BoundedPriorityQueue* bpq, double key, size_t value) {
-  if(bpq->actualsize > 0)
+  if(bpq->actualsize > 0 && bpqMaximumKey(bpq) > key)
   { 
-    unsigned int half = bpq->actualsize/2;
-    unsigned int position = minposition(bpq->key,half,bpq->actualsize);
-
-    if(bpq->key[position] > key)
-      return;
-    Heap(bpq,position,key,value);
-  }
+    HeapDeleteMax(bpq);
+    bool test = bpqInsert(bpq,key,value);
+}
 }
 
 double bpqMaximumKey(const BoundedPriorityQueue* bpq) {
@@ -118,5 +128,3 @@ size_t bpqSize(const BoundedPriorityQueue* bpq) {
 size_t bpqCapacity(const BoundedPriorityQueue* bpq) {
   return bpq->capacity;
 }
-
-
