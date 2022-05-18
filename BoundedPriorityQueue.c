@@ -1,8 +1,6 @@
 #include "BoundedPriorityQueue.h"
 #include <stdlib.h>
-#include <stdio.h>
-
-
+#include <math.h>
 struct bounded_priority_queue_t {
   size_t actualsize;
   size_t capacity;
@@ -129,8 +127,8 @@ void bpqReplaceMaximum(BoundedPriorityQueue* bpq, double key, size_t value) {
   if(bpq->actualsize > 0 && bpqMaximumKey(bpq) > key)
   { 
     HeapDeleteMax(bpq);
-    bool insertRes = bpqInsert(bpq,key,value);
-    insertRes;
+    bool test = bpqInsert(bpq,key,value);
+    test;
 }
 }
 
@@ -138,7 +136,7 @@ double bpqMaximumKey(const BoundedPriorityQueue* bpq) {
   if(bpq->actualsize >0)
     return bpq->key[0];
   else 
-    return 0;
+    return INFINITY;
 } 
 
 size_t* bpqGetItems(const BoundedPriorityQueue* bpq) {
