@@ -8,14 +8,14 @@ struct bounded_priority_queue_t {
   double *key;
   size_t *value;
 };
-static void doubleswap(double *array,size_t *array2, int i,int j ,int m, int n)
+static void doubleswap(double *array,size_t *array2, int i,int j )
 {
   double temp = array[i];
   array[i] = array[j];
   array[j] = temp;
-  size_t temp2 = array2[m];
-  array2[m] = array2[n];
-  array2[n]= temp2;
+  size_t temp2 = array2[i];
+  array2[i] = array2[j];
+  array2[j]= temp2;
 }
 static unsigned int minposition(double *array,unsigned int begin,unsigned int end)
 {
@@ -37,8 +37,8 @@ static void Heap(BoundedPriorityQueue *bpq, size_t position,double key,size_t va
   int i = position;
   while (i > 0 &&bpq->key[i/2] < bpq->key[i])
   {
-    doubleswap(bpq->key,bpq->value,i,i/2,i,i/2);
-    i = i/2;
+    doubleswap(bpq->key,bpq->value,i,i/2);
+    i /= 2;
   } 
 }
 
@@ -118,6 +118,5 @@ size_t bpqSize(const BoundedPriorityQueue* bpq) {
 size_t bpqCapacity(const BoundedPriorityQueue* bpq) {
   return bpq->capacity;
 }
-
 
 
