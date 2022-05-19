@@ -127,9 +127,8 @@ void bpqReplaceMaximum(BoundedPriorityQueue* bpq, double key, size_t value) {
   if(bpq->actualsize > 0 && bpqMaximumKey(bpq) > key)
   { 
     HeapDeleteMax(bpq);
-    bool test = bpqInsert(bpq,key,value);
-    test;
-}
+    bpqInsert(bpq,key,value);
+  }
 }
 
 double bpqMaximumKey(const BoundedPriorityQueue* bpq) {

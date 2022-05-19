@@ -26,21 +26,12 @@ double dtw(Sketch sketch1, Sketch sketch2, double maxDistance){
   unsigned int costMatrixHeight = sketch2.size + 1;
 
   //Initialization of the distance matrix
-  double** costMatrix = malloc(sizeof(double*) * costMatrixHeight);
-  if(!costMatrix)
-    return 0.0;
+  double costMatrix[costMatrixHeight][costMatrixWidth];
 
   //Initialization of the distance matrix rows
   for(unsigned int i = 0; i < costMatrixHeight; i++){
-    costMatrix[i] = malloc(sizeof(double) * costMatrixWidth);
-
-    if(!costMatrix[i]){
-      free2dArray((void**)costMatrix, i);
-      return 0;
-    }
-
     if(i == 0){
-      costMatrix[1][0] = 0;
+      costMatrix[0][0] = 0;
       for(unsigned int j = 1; j < costMatrixWidth; j++){
         costMatrix[i][j] = INFINITY;
       }
@@ -56,7 +47,7 @@ double dtw(Sketch sketch1, Sketch sketch2, double maxDistance){
     for(unsigned int j = 1; j < costMatrixHeight; j++){
       double pointsDistance = ((double)(abs(sketch1.points[i - 1].x - sketch2.points[j - 1].x)) + (abs(sketch1.points[i - 1].y - sketch2.points[j - 1].y))) / 2;
       costMatrix[j][i] = pointsDistance + min3(costMatrix[j-1][i-1], costMatrix[j-1][i], costMatrix[j][i-1]);
-      if(costMatrix[j][i] >= maxDistance){
+      if(costMatrix[j][i] > maxDistance){
         return INFINITY;
       }
     }

@@ -2,6 +2,7 @@
 #include "BoundedPriorityQueue.h"
 #include "DynamicTimeWarping.h"
 #include "math.h"
+#include <stdlib.h>
 
 SketchDistance* nearestNeighbours(const Dataset* dataset, Sketch query, size_t k) {
   BoundedPriorityQueue* q = bpqCreate(k);
@@ -28,6 +29,7 @@ SketchDistance* nearestNeighbours(const Dataset* dataset, Sketch query, size_t k
 
   SketchDistance* nearestSketches = malloc(sizeof(SketchDistance) * k);
   for(unsigned int i = 0; i < bpqSize(q); i++){
+    nearestSketches[i].distance = distanceBetweenArray[queueData[i]];
     nearestSketches[i].sketch = &(dataset->sketches[queueData[i]]);
   }
 
