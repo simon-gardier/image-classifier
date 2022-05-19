@@ -10,12 +10,7 @@ SketchDistance* nearestNeighbours(const Dataset* dataset, Sketch query, size_t k
   if(!q)
     return NULL;
 
-  double* distanceBetweenArray = malloc(sizeof(double) * dataset->size);
-
-  if(!distanceBetweenArray){
-    bpqFree(q);
-    return NULL;
-  }
+  double distanceBetweenArray[dataset->size];
 
   for(unsigned int i = 0; i < dataset->size; i++){
     double distanceBetween = dtw(query, dataset->sketches[i], bpqMaximumKey(q));
@@ -34,7 +29,6 @@ SketchDistance* nearestNeighbours(const Dataset* dataset, Sketch query, size_t k
   }
 
   bpqFree(q);
-  free(distanceBetweenArray);
 
   return nearestSketches;
 }
