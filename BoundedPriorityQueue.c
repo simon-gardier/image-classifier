@@ -107,9 +107,12 @@ BoundedPriorityQueue* bpqCreate(size_t capacity) {
 }
 
 void bpqFree(BoundedPriorityQueue* bpq) {
-  free(bpq->value);
-  free(bpq->key);
-  free(bpq);
+  if(bpq->value)
+    free(bpq->value);
+  if(bpq->key)
+    free(bpq->key);
+  if(bpq)
+    free(bpq);
 }
 
 bool bpqInsert(BoundedPriorityQueue* bpq, double key, size_t value) {
@@ -147,3 +150,4 @@ size_t bpqSize(const BoundedPriorityQueue* bpq) {
 size_t bpqCapacity(const BoundedPriorityQueue* bpq) {
   return bpq->capacity;
 }
+
