@@ -86,8 +86,6 @@ static void Heap(BoundedPriorityQueue *bpq, size_t position,double key,size_t va
 
 
 BoundedPriorityQueue* bpqCreate(size_t capacity) {
-  if(capacity <= 0)
-    return NULL;
   BoundedPriorityQueue* Priority = malloc(sizeof(BoundedPriorityQueue));
   if(!Priority)
     return NULL;
