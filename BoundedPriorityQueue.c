@@ -10,71 +10,55 @@ typedef struct Element_t{
 struct bounded_priority_queue_t {
   size_t actualsize;
   size_t capacity;
-  Element *element;
+  Element *elements;
 };
 /**
- * @fn doubleswap
+ * @fn swap
  * @brief Swap the value between 2 arrays
- * @param array first array to swap the value
- * @param array2 second array to swap the value
+ * @param bqp The binary heap with Elements contains a pairs of key/value
  * @param i the first position in the arrays
  * @param j the second position in the arrays 
  * 
  */
-static void doubleswap(BoundedPriorityQueue *bpq,unsigned int i,unsigned int j )
+static void swap(BoundedPriorityQueue *bpq,unsigned int i,unsigned int j )
 {
   //For key the change
-  double key =bpq->element[i].key;
-  bpq->element[i].key = bpq->element[j].key;
-  bpq->element[j].key = key;
+  double key =bpq->elements[i].key;
+  bpq->elements[i].key = bpq->elements[j].key;
+  bpq->elements[j].key = key;
   //For value the change
-  size_t value =bpq->element[i].value;
-  bpq->element[i].value = bpq->element[j].value;
-  bpq->element[j].value = value;
+  size_t value =bpq->elements[i].value;
+  bpq->elements[i].value = bpq->elements[j].value;
+  bpq->elements[j].value = value;
 
 }
 /**
  * @fn maxHeapify
  * @brief Rebuild correclty the heap
- * @param key the heap to rebuild
- * @param value associated data to key
+ * @param bpq The binary heap
  * @param root the start of rebuild
  * @param heapSize the size of the heap
- * 
  */
 static void maxHeapify(BoundedPriorityQueue *bpq, unsigned int root, unsigned int heapSize){
     unsigned int left = 2*root + 1;
     unsigned int right = 2*root + 2;
     unsigned int largest = root;
     
-    if(left < heapSize && bpq->element[left].key > bpq->element[largest].key){
+    if(left < heapSize && bpq->elements[left].key > bpq->elements[largest].key){
         largest = left;
     }
-    if(right < heapSize && bpq->element[right].key > bpq->element[largest].key){
+    if(right < heapSize && bpq->elements[right].key > bpq->elements[largest].key){
         largest = right;
     }
     if(largest != root){
-        doubleswap(bpq, root, largest);
+        swap(bpq, root, largest);
         maxHeapify(bpq, largest, heapSize);
     }
 }
-/**
- * @fn HeapDeleteMax
- * @brief Delete the maximum in the heap
- * @param bpq The binay heap need to retire 
- */
-static void HeapDeleteMax(BoundedPriorityQueue *bpq)
-{
-  unsigned int position = bpq->actualsize; 
-  position = position - 1;
-  bpq->element[0].key= bpq->element[position].key;
-  bpq->element[0].value= bpq->element[position].value;
-  bpq->actualsize = position;
-  maxHeapify(bpq,0,bpq->actualsize);
-}
+
 /**
  * @fn Heap
- * @brief Insert the element in the heap
+ * @brief Insert the elements in the heap
  * @param bpq The binary heap
  * @param position Where to insert in the heap
  * @param key the key 
@@ -82,12 +66,12 @@ static void HeapDeleteMax(BoundedPriorityQueue *bpq)
  */
 static void Heap(BoundedPriorityQueue *bpq, size_t position,double key,size_t value)
 {
-  bpq->element[position].key = key;
-  bpq->element[position].value= value;
+  bpq->elements[position].key = key;
+  bpq->elements[position].value= value;
   unsigned int i = position;
-  while (i > 0 && bpq->element[i/2].key < bpq->element[i].key)
+  while (i > 0 && bpq->elements[i/2].key < bpq->elements[i].key)
   {
-    doubleswap(bpq,i,i/2);
+    swap(bpq,i,i/2);
     i = i / 2;
   } 
 }
@@ -97,8 +81,8 @@ BoundedPriorityQueue* bpqCreate(size_t capacity) {
     return NULL;
   Priority->capacity = capacity;
   Priority->actualsize = 0;
-  Priority->element = malloc(capacity * sizeof(Element));
-  if(!Priority->element)
+  Priority->elements = malloc(capacity * sizeof(Element));
+  if(!Priority->elements)
   {
     free(Priority);
     return NULL;
@@ -108,7 +92,7 @@ BoundedPriorityQueue* bpqCreate(size_t capacity) {
 
 void bpqFree(BoundedPriorityQueue* bpq) {
   if(bpq) 
-    free(bpq->element);
+    free(bpq->elements);
 }
 
 bool bpqInsert(BoundedPriorityQueue* bpq, double key, size_t value) {
@@ -121,16 +105,17 @@ bool bpqInsert(BoundedPriorityQueue* bpq, double key, size_t value) {
 }
 
 void bpqReplaceMaximum(BoundedPriorityQueue* bpq, double key, size_t value) {
-  if(bpq->actualsize > 0 && bpqMaximumKey(bpq) < key)
+  if(bpq->actualsize > 0 && key > 0)
   { 
-    HeapDeleteMax(bpq);
-    bpqInsert(bpq,key,value);
+    bpq->elements[0].key = key;
+    bpq->elements[0].value = value;
+    maxHeapify(bpq,0,bpq->actualsize);
   }
 }
 
 double bpqMaximumKey(const BoundedPriorityQueue* bpq) {
   if(bpq->actualsize >0)
-    return bpq->element[0].key;
+    return bpq->elements[0].key;
   else 
     return INFINITY;
 } 
@@ -143,8 +128,9 @@ size_t* bpqGetItems(const BoundedPriorityQueue* bpq) {
     return NULL;
   for(unsigned int i= 0; i < bpq->capacity;i++)
   {
-    Items[i]= bpq->element[i].value;
+    Items[i]= bpq->elements[i].value;
   }
+
   return Items;
 }
 
