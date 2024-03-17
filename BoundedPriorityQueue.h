@@ -1,5 +1,5 @@
-#ifndef  BOUNDEDPRIORITYQUEUE_H_DEFINED
-#define  BOUNDEDPRIORITYQUEUE_H_DEFINED
+#ifndef BOUNDEDPRIORITYQUEUE_H_DEFINED
+#define BOUNDEDPRIORITYQUEUE_H_DEFINED
 
 #include <stddef.h>
 #include <stdbool.h>
@@ -20,7 +20,7 @@ typedef struct bounded_priority_queue_t BoundedPriorityQueue;
  * RETURN
  * bpq              The bounded priority queue.
  * ------------------------------------------------------------------------- */
-BoundedPriorityQueue* bpqCreate(size_t capacity);
+BoundedPriorityQueue *bpqCreate(size_t capacity);
 
 /* ------------------------------------------------------------------------- *
  * Free the memory allocated for the bounded priority queue.
@@ -28,7 +28,7 @@ BoundedPriorityQueue* bpqCreate(size_t capacity);
  * PARAMETERS
  * bpq              The bounded priority queue to free
  * ------------------------------------------------------------------------- */
-void bpqFree(BoundedPriorityQueue* bpq);
+void bpqFree(BoundedPriorityQueue *bpq);
 
 /* ------------------------------------------------------------------------- *
  * Insert a key/value pair in the priority queue. If the queue is full,
@@ -44,8 +44,7 @@ void bpqFree(BoundedPriorityQueue* bpq);
  * opened           True if the element was successfully added, false if the
  *   			    queue is full
  * ------------------------------------------------------------------------- */
-bool bpqInsert(BoundedPriorityQueue* bpq, double key, size_t value);
-
+bool bpqInsert(BoundedPriorityQueue *bpq, double key, size_t value);
 
 /* ------------------------------------------------------------------------- *
  * Replace the element with maximum key with a new key/value pair. The queue
@@ -57,7 +56,7 @@ bool bpqInsert(BoundedPriorityQueue* bpq, double key, size_t value);
  * key              The new key...
  * value            ... and its associated value
  * ------------------------------------------------------------------------- */
-void bpqReplaceMaximum(BoundedPriorityQueue* bpq, double key, size_t value);
+void bpqReplaceMaximum(BoundedPriorityQueue *bpq, double key, size_t value);
 
 /* ------------------------------------------------------------------------- *
  * Return the maximum key currently stored in the priority queue. The queue
@@ -70,7 +69,7 @@ void bpqReplaceMaximum(BoundedPriorityQueue* bpq, double key, size_t value);
  * RETURN
  * max              The value of the maximum key.
  * ------------------------------------------------------------------------- */
-double bpqMaximumKey(const BoundedPriorityQueue* bpq);
+double bpqMaximumKey(const BoundedPriorityQueue *bpq);
 
 /* ------------------------------------------------------------------------- *
  * Get all the values stored in the queue as an array of unsigned integers.
@@ -83,7 +82,7 @@ double bpqMaximumKey(const BoundedPriorityQueue* bpq);
  * RETURN
  * array            The array of values.
  * ------------------------------------------------------------------------- */
-size_t* bpqGetItems(const BoundedPriorityQueue* bpq);
+size_t *bpqGetItems(const BoundedPriorityQueue *bpq);
 
 /* ------------------------------------------------------------------------- *
  * Return the size of the queue (i.e. the number of elements currently stored
@@ -95,7 +94,7 @@ size_t* bpqGetItems(const BoundedPriorityQueue* bpq);
  * RETURN
  * size 		    The size of the queue
  * ------------------------------------------------------------------------- */
-size_t bpqSize(const BoundedPriorityQueue* bpq);
+size_t bpqSize(const BoundedPriorityQueue *bpq);
 
 /* ------------------------------------------------------------------------- *
  * Return the capacity of the queue.
@@ -106,7 +105,6 @@ size_t bpqSize(const BoundedPriorityQueue* bpq);
  * RETURN
  * capacity 	    The capacity of the queue
  * ------------------------------------------------------------------------- */
-size_t bpqCapacity(const BoundedPriorityQueue* bpq);
-
+size_t bpqCapacity(const BoundedPriorityQueue *bpq);
 
 #endif // BOUNDEDPRIORITYQUEUE_H_DEFINED

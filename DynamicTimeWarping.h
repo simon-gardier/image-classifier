@@ -1,5 +1,5 @@
-#ifndef  DYNAMICTIMEWARPING_H
-#define  DYNAMICTIMEWARPING_H
+#ifndef DYNAMICTIMEWARPING_H
+#define DYNAMICTIMEWARPING_H
 
 #include <stddef.h>
 #include "Sketch.h"

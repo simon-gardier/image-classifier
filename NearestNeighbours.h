@@ -1,15 +1,20 @@
-#ifndef  NEARESTNEIGHBOURS_H_DEFINED
-#define  NEARESTNEIGHBOURS_H_DEFINED
+#ifndef NEARESTNEIGHBOURS_H_DEFINED
+#define NEARESTNEIGHBOURS_H_DEFINED
 
 #include <stddef.h>
 #include "Sketch.h"
 
 /**
+ * This file is part of the INFO0902 course given by Pr. Geurts 
+*/
+
+/**
  * Store a pair of sketch/distance.
  */
-typedef struct sketch_distance_t {
-	const Sketch* sketch;              // A pointer to a sketch
-	double distance;                   // The distance to another sketch
+typedef struct sketch_distance_t
+{
+	const Sketch *sketch; // A pointer to a sketch
+	double distance;	  // The distance to another sketch
 } SketchDistance;
 
 /** ------------------------------------------------------------------------ *
@@ -25,7 +30,7 @@ typedef struct sketch_distance_t {
  * array		 An array of SketchDistance (of size k) containing the nearest
  * 			 sketches and their corresponding distances (in any order).
  * ------------------------------------------------------------------------- */
-SketchDistance* nearestNeighbours(const Dataset* dataset, Sketch query,
-                                  size_t k);
+SketchDistance *nearestNeighbours(const Dataset *dataset, Sketch query,
+								  size_t k);
 
 #endif // NEARESTNEIGHBOURS_H_DEFINED
