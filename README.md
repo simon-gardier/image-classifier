@@ -10,7 +10,7 @@ Image classifier for [ppm images](https://fr.wikipedia.org/wiki/Portable_pixmap)
 
 To find the nearest neighbour for the query, the tool implements a bounded priority queue processing the given images from the training data set. The nearest neighbour class is the guess for the query.
 
-Project done for the Data structures and Algorithm course "INFO0902" given by Pr. Geurts, University of Liège
+Project carried out in the context of the Data structures and Algorithm course "INFO0902" given by Pr. Geurts, University of Liège.
 
 Grade : 19/20
 
