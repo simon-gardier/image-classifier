@@ -3,7 +3,7 @@
 ![Language](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge)
 
 <div style="display: flex; justify-content: space-around; align-items: center;">
-  <img src="ressources/illustration.png" alt="Classifier illustration, query on top, classes on the bottom" style="width: 40%;"/>
+  <img src="ressources/illustration.png" alt="Classifier illustration, query on top, classes on the bottom" style="width: 70%;"/>
 </div>
 
 Image classifier for [ppm images](https://fr.wikipedia.org/wiki/Portable_pixmap).
@@ -17,13 +17,13 @@ Grade : 19/20
 To determine the best fit for the query, the algorithm used is [Dynamic time warping](https://en.wikipedia.org/wiki/Dynamic_time_warping)
 
 <div style="display: flex; justify-content: space-around; align-items: center;">
-  <img src="ressources/DTW_wikipedia.png" alt="DTW illustration" style="width: 90%; "/>
+  <img src="ressources/DTW_wikipedia.png" alt="DTW illustration" style="width: 70%; "/>
 </div>
 
-The training and test set come from the [Google QuickDraw dataset](https://github.com/googlecreativelab/quickdraw-dataset).
+The training and test sets come from the [Google QuickDraw dataset](https://github.com/googlecreativelab/quickdraw-dataset).
 
 <div style="display: flex; justify-content: space-around; align-items: center;">
-  <img src="ressources/quickdrawpreview.jpg" alt="DTW illustration" style="width: 90%;"/>
+  <img src="ressources/quickdrawpreview.jpg" alt="DTW illustration" style="width: 70%;"/>
 </div>
 
 ## Summary
