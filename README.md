@@ -57,7 +57,7 @@ Note : the image selected to be classified is visible in `./results`
 
 ### Evaluate the DTW performances
 
-To thealgorithm on all the test set, run :
+To test ²the algorithm on all the test set, run :
 ```console
 ./NNSketch trainingset.txt testset.txt
 ```
