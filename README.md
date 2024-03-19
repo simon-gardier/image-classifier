@@ -79,6 +79,6 @@ The two data sets have the same structure :
 
 
 ## Credits
-- Simon Gardier (Co-author)
+- [Simon Gardier](https://github.com/simon-gardier) (Co-author)
 - Lei Yang (Co-author)
 
